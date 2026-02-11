@@ -1,0 +1,348 @@
+{
+  "main": {
+    "id": "a08f2e55b5ea9c46",
+    "type": "split",
+    "children": [
+      {
+        "id": "462a454d929e5d9d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "49f34d3cf283ceab",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Docs Deploy Aisyah di Panam.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "Docs Deploy Aisyah di Panam"
+            }
+          },
+          {
+            "id": "5ba1fc6aaff69527",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Query regpas terbaru di his2.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "Query regpas terbaru di his2"
+            }
+          },
+          {
+            "id": "9f5d67a330821542",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Query regpas terbaru di his2.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "Query regpas terbaru di his2"
+            }
+          },
+          {
+            "id": "34e88001d89ca1d6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "RnD Cloud Radio PRD by Claude.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "RnD Cloud Radio PRD by Claude"
+            }
+          },
+          {
+            "id": "611fb0a60825c3b7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-02-10 Meeting Lab Lingkungan.md",
+                "mode": "preview",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "2026-02-10 Meeting Lab Lingkungan"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "9ef850c125e656bd",
+    "type": "split",
+    "children": [
+      {
+        "id": "c3037d6abc189581",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a29302f3e5e1ad53",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "71775ffa47904825",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:categories",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3a8dac2ee9691172",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 252.5,
+    "collapsed": true
+  },
+  "right": {
+    "id": "a95336d31c9625b4",
+    "type": "split",
+    "children": [
+      {
+        "id": "82c1e97478dc50e9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3d01a42cee6b7227",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Tes Theme Checkbox.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Tes Theme Checkbox"
+            }
+          },
+          {
+            "id": "cf38d9d3d7aa63e0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "fbd56631d82292b8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "2026-02-10 Meeting Lab Lingkungan.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 2026-02-10 Meeting Lab Lingkungan"
+            }
+          },
+          {
+            "id": "355de752b74776a9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Tes Theme Checkbox.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Tes Theme Checkbox"
+            }
+          },
+          {
+            "id": "2225c908aef7ebd2",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 284.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "markdown-importer:Open format converter": false,
+      "zk-prefixer:Create new unique note": false,
+      "random-note:Open random note": false,
+      "workspaces:Manage workspace layouts": false,
+      "bases:Create new base": false,
+      "omnisearch:Omnisearch": false
+    }
+  },
+  "active": "611fb0a60825c3b7",
+  "lastOpenFiles": [
+    "Query regpas terbaru di his2.md",
+    "Docs Deploy Aisyah di Panam.md",
+    "Subdomain Reverse Proxy using Nginx.md",
+    "List Aspek yang perlu diperhatikan Survei Awal CCIS.md",
+    "2026-02-10 Meeting Lab Lingkungan.md",
+    "RnD Cloud Radio PRD by Claude.md",
+    "2026-02-09 ToDo.md",
+    "Dokumentasi API Close Bill Aisyah.md",
+    "Dokumentasi Install Primaya API untuk Aisyah.md",
+    "PRD energo.md",
+    "PRD go-enms.md",
+    "2026-01-11 2016 MCU PLN Prep.md",
+    "PRD go-enms.md.partial",
+    "2026-01-11 2016 MCU PLN Prep.md.partial",
+    "Docs Deploy Aisyah di Botania.md",
+    "Meeting Prep Beta Testing Aisyah RSAB Ayani.md",
+    "2026-02-03 ToDo.md",
+    "Optimizing grep Command Usage.md",
+    "Self Dev.md",
+    "RnD Cloud Radio Database Design and Its Flow.md",
+    "Templates/Bases/Self Dev.base",
+    "Untitled.base",
+    "exponential backoff.md",
+    "Templates/Bases/Worknotes.base",
+    "Categories/Worknotes.md",
+    "Daily/2026-02-02.md",
+    "Daily/2026-01-19.md",
+    "Daily/2023-09-12.md",
+    "Daily/2025-12-24.md",
+    "Daily/2025-12-31.md",
+    "Daily/2026-01-01.md",
+    "Templates/Bases/Daily.base",
+    "Attachments/Pasted image 20260123144134.png",
+    "Attachments/Pasted image 20260123144130.png",
+    "Attachments/rnd-cloud-radiologi-1-Overview Arch.drawio.png",
+    "Attachments/Pasted image 20260112151603.png",
+    "Attachments/Pasted image 20260119110217.png",
+    "2026-01-18 Kelebihan dan kekurangan.md.partial",
+    "Attachments/Pasted image 20260112165601.png",
+    "Attachments/Pasted image 20260112165538.png",
+    "Attachments/Pasted image 20260112165352.png",
+    "Attachments/Pasted image 20260112161107.png",
+    "Attachments/Pasted image 20260112160922.png",
+    "2026-01-11 1808 Ukuran Kamar untuk Redekorasi.md.partial",
+    "Templates/Bases/Projects.base",
+    "Templates/Bases/Products.base"
+  ]
+}

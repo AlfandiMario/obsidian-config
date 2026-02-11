@@ -1,0 +1,2789 @@
+/**---------------------**
+*!  Obsidian Everforest
+*?
+*? 1. Variables
+*?   - Implementation
+*? 2. Themes
+*?   - Dark
+*?   - Light
+*? 2. General UI
+*?   - Workspace
+*?   - Menus
+*?   - Sidebars
+*?   - Canvas
+*?   - Loading Screen
+*? 4. Markdown
+*?   - Emphasis
+*?   - Code
+*?   - Links
+*?   - Lists
+*?   - Blockquotes
+*?   - Tables
+*?   - Tags
+*?   - Embeds
+*?   - YAML
+*?   - Graph
+*? 5. Mobile
+*? 6. Cursor
+*? 7. Style Settings
+*?   - Custom Stacked Panes
+*?   - Custom Background Image
+*? 8. Extra Fixes
+*?   - Callouts
+*?   - Image Formatting
+*?   - CSS Classes
+*?   - Misc.
+*?
+ **---------------------**/
+
+/**** Implementation ****/
+
+:root body:where(.theme-dark, .theme-light) {
+    /** Miscellaneous **/
+
+    /* --checkbox-size: calc(var(--font-text-size) - 2px); */
+    --checkbox-size: calc(var(--font-text-size));
+    /* --checkbox-radius: 25%; */
+    --checkbox-radius: 6px;
+
+
+    /* Adjusted in Style Settings */
+    --list-indent: var(--list-indent-custom, 28px);
+    --list-spacing: 0;
+    --list-bullet-size: 6px;
+
+    --file-folding-offset: 22px;
+
+    --shadow-l: 0 4px 14px -2px hsla(0, 0%, 0%, 40%);
+
+    /* Adjusted in Style Settings */
+    --file-line-width: var(--readable-line-length-custom, 700px);
+
+    /** Backgrounds **/
+
+    --background-modifier-border: var(--bg5);
+    --background-modifier-border-hover: var(--bg3);
+    --background-embed: var(--background-embed-transparent);
+    --embed-block-shadow-hover: var(--shadow-l);
+    --blockquote-background-color: var(--background-embed);
+
+    --background-primary: var(--bg0);
+    --background-primary-rgb: var(--bg0-rgb);
+    --background-primary-alt: var(--bg0);
+    --background-secondary: var(--bg0);
+    --background-secondary-alt: var(--bg0);
+
+    /** General Colors **/
+
+    --text-normal: var(--fg);
+    --text-muted: var(--color-base-70);
+    --text-faint: var(--grey1);
+    --text-selection: var(--bg-visual);
+
+    --link-color: var(--header-aqua);
+    --link-color-hover: var(--fg-aqua);
+    --link-external-color: var(--header-blue);
+    --link-external-color-hover: var(--fg-blue);
+    --text-accent: var(--header-blue);
+    --text-accent-hover: var(--header-purple);
+
+    --link-unresolved-decoration-style: dashed;
+    --link-unresolved-color: var(--header-blue);
+    --link-unresolved-color-hover: var(--header-purple); /* Non-standard */
+    --link-unresolved-decoration-color: var(--bg-red);
+    --link-unresolved-decoration-color-hover: var(--fg-red); /* Non-standard */
+
+    --code-header: #0004;
+    --code-background: var(--bg-dim);
+    --code-normal: var(--text-muted);
+    --code-inline: var(--fg-blue);
+
+    --code-normal: var(--fg);
+    --code-comment: var(--grey1);
+    --code-function: var(--fg-green);
+    --code-important: var(--fg-red);
+    --code-keyword: var(--fg-blue);
+    --code-operator: var(--fg-orange);
+    --code-property: var(--fg-aqua);
+    --code-punctuation: var(--grey1);
+    --code-string: var(--fg-yellow);
+    --code-tag: var(--fg-orange);
+    --code-value: var(--fg-purple);
+
+    --table-background: var(--bg2);
+    --table-column-alt-background: unset;
+    --table-row-alt-background: var(--bg1);
+    --table-header-background: var(--bg-green);
+    --table-header-background-hover: var(--bg-green);
+    --table-row-background-hover: var(--bg4);
+
+    --interactive-before: var(--bg4);
+    --interactive-accent: var(--header-aqua);
+    --interactive-accent-hover: var(--header-blue);
+
+    --text-highlight-bg: var(--bg-yellow);
+
+    --heading-formatting: ;
+
+    --tag-color: var(--header-blue);
+    --tag-background: hsla(var(--tag-color-hsl), 0.1);
+    --tag-background-hover: hsla(var(--tag-color-hsl), 0.2);
+
+    --checkbox-color: var(--fg-blue);
+
+    --canvas-dot-pattern: var(--color-base-50);
+
+    /** Headers **/
+
+    --h1-color: var(--header-red);
+    --h2-color: var(--header-orange);
+    --h3-color: var(--header-yellow);
+    --h4-color: var(--header-green);
+    --h5-color: var(--header-blue);
+    --h6-color: var(--header-purple);
+
+    --h1-size: 2.125em;
+    --h2-size: 1.625em;
+    --h3-size: 1.375em;
+    --h4-size: 1.25em;
+    --h5-size: 1.125em;
+    --h6-size: 1em;
+
+    --h1-line-height: 1.5;
+    --h2-line-height: 1.5;
+    --h3-line-height: 1.5;
+    --h4-line-height: 1.5;
+    --h5-line-height: 1.5;
+    --h6-line-height: 1.5;
+
+    --h1-weight: 500;
+    --h2-weight: 500;
+    --h3-weight: 500;
+    --h4-weight: 500;
+    --h5-weight: 500;
+    --h6-weight: 500;
+}
+
+/** Mobile mode fixes **/
+:root body.is-mobile {
+    --input-shadow-hover: var(--input-shadow);
+    --input-border-width: 1px;
+    --file-margins: 16px 20px;
+}
+/* Dark mode */
+:root body.is-mobile.theme-dark {
+    --input-shadow: inset 0 1px 1px 0.5px rgba(255, 255, 255, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+    --interactive-normal: var(--color-base-30);
+    --background-modifier-form-field: var(--color-base-25);
+}
+/* Light mode */
+:root body.is-mobile.theme-light {
+    --input-shadow: inset 0 0 0.5px 1px rgba(0, 0, 0, 0.1),
+        0 2px 3px rgba(0, 0, 0, 0.1);
+    --interactive-normal: var(--color-base-00);
+    --background-modifier-form-field: var(--color-base-00);
+}
+
+/**** Theme Colors ****/
+
+/** Dark Theme (Soft) **/
+
+:root .theme-dark {
+    --bg-dim-rgb: 41, 49, 54;
+    --bg-dim: #293136;
+    --bg0: #2c3033;
+    --bg1: #3a464c;
+    --bg2: #434f55;
+    --bg3: #4d5960;
+    --bg4: #555f66;
+    --bg5: #5d6b66;
+
+    --bg-visual: #5c3f4f;
+    --bg-red: #59464c;
+    --bg-green: #48584e;
+    --bg-blue: #3f5865;
+    --bg-yellow: #55544a;
+
+    --fg: #d3c6aa;
+
+    --fg-red: #e67e80;
+    --fg-orange: #e69875;
+    --fg-yellow: #dbbc7f;
+    --fg-green: #a7c080;
+    --fg-aqua: #83c092;
+    --fg-blue: #7fbbb3;
+    --fg-purple: #d699b6;
+
+    --header-red: #da6362;
+    --header-orange: #d77f48;
+    --header-yellow: #bf983d;
+    --header-green: #899c40;
+    --header-aqua: #569d79;
+    --header-blue: #5a93a2;
+    --header-purple: #b87b9d;
+
+    --grey0: #7a8478;
+    --grey1: #859289;
+    --grey2: #9da9a0;
+
+    --statusline0: #a7c080;
+    --statusline1: #d3c6aa;
+    --statusline2: #e67e80;
+
+    --bg0-rgb: 51, 60, 67;
+    --background-embed-transparent: rgba(62, 75, 80, 0.7);
+    --tag-color-hsl: 254, 80%, 68%;
+}
+
+/** Light Theme (Hard) **/
+
+:root .theme-light {
+    --bg-dim-rgb: 242, 239, 223;
+    --bg-dim: #f2efdf;
+    --bg0: #fffbef;
+    --bg1: #f8f5e4;
+    --bg2: #f2efdf;
+    --bg3: #edeada;
+    --bg4: #e8e5d5;
+    --bg5: #bec5b2;
+
+    --bg-visual: #ded8db; /* Changed for visibility */
+    --bg-red: #ffe7de;
+    --bg-green: #f3f5d9;
+    --bg-blue: #ecf5ed;
+    --bg-yellow: #fef2d5;
+
+    --fg: #5c6a72;
+
+    --fg-red: #f85552;
+    --fg-orange: #f57d26;
+    --fg-yellow: #dfa000;
+    --fg-green: #8da101;
+    --fg-aqua: #35a77c;
+    --fg-blue: #3a94c5;
+    --fg-purple: #df69ba;
+
+    --header-red: #f85552;
+    --header-orange: #f88f44;
+    --header-yellow: #f3b931;
+    --header-green: #abd113;
+    --header-aqua: #569d79;
+    --header-blue: #5a93a2;
+    --header-purple: #dd2b8d;
+
+    --grey0: #a6b0a0;
+    --grey1: #939f91;
+    --grey2: #829181;
+
+    --statusline0: #93b259;
+    --statusline1: #708089;
+    --statusline2: #e66868;
+
+    --bg0-rgb: 255, 251, 239;
+    --background-embed-transparent: rgb(238 236 213 / 70%); /* Using bg2 */
+    --tag-color-hsl: 254, 80%, 68%;
+}
+
+/**** General UI ****/
+
+/** Workspace **/
+
+/* Title bar */
+.workspace-leaf .view-header {
+    box-shadow: 0 0 8px -4px var(--divider-color);
+}
+
+/* Title text */
+.view-header-title {
+    font-weight: 600;
+}
+
+/* Gutters */
+.markdown-source-view.mod-cm6 .cm-gutters {
+    padding-inline-end: var(--file-folding-offset);
+    pointer-events: none;
+}
+.cm-gutter .cm-active {
+    color: var(--text-normal);
+}
+
+/* Make gutters not affect the content flow for unstacked tabs */
+.workspace-tabs:not(.mod-stacked)
+    .mod-cm6.is-readable-line-width:not(.full-width),
+body:not(.stacked-panes-gutter-disable-float)
+    .workspace-tabs.mod-stacked
+    .mod-cm6.is-readable-line-width {
+    .cm-contentContainer {
+        display: grid !important;
+    }
+    :is(.cm-gutters, .cm-content) {
+        grid-area: 1 / -1;
+    }
+    .cm-content {
+        width: unset !important;
+    }
+    .cm-gutters {
+        justify-self: left;
+        translate: -100% 0;
+    }
+}
+
+/* Smaller margins for stacked tabs */
+.mod-stacked {
+    --file-margins: 32px 12px;
+}
+
+/* Collapse indicator */
+.markdown-source-view.mod-cm6 .cm-fold-indicator .collapse-indicator {
+    padding-right: 0.45rem;
+}
+.markdown-source-view.mod-cm6
+    .cm-line:not(.cm-active):not(.HyperMD-header):not(
+        .HyperMD-task-line,
+        .HyperMD-list-line-1
+    )
+    .cm-fold-indicator
+    .collapse-indicator {
+    padding-right: 0.75rem;
+}
+div ul.has-list-bullet ul.has-list-bullet .collapse-indicator {
+    margin-left: -2.75rem;
+}
+.markdown-rendered .list-collapse-indicator {
+    padding-right: 1rem;
+}
+
+/* Hide extra tab dividers */
+.workspace-tab-header:has(+ .is-active) > .workspace-tab-header-inner::after {
+    visibility: hidden;
+}
+
+/* Change outliner navigation highlight */
+.is-flashing {
+    background-color: transparent !important;
+    color: inherit;
+    border-radius: 0;
+    box-shadow: 0 4px 0 var(--text-highlight-bg);
+}
+
+/* Fix gutter number vertical cutoff */
+:root .cm-lineNumbers .cm-gutterElement {
+    line-height: normal !important;
+}
+
+/** Menus **/
+
+/* Checkboxes and dropdowns */
+select:hover,
+select:focus-within,
+button:hover {
+    transition: background-color var(--anim-duration-superfast) ease-out;
+}
+
+/* Modal transitions */
+body:not(.disable-menu-animations, .enable-menu-blur) .modal-bg {
+    animation: fade-in var(--anim-duration-superfast) linear;
+}
+body:not(.disable-menu-animations) :is(.modal, .prompt) {
+    animation:
+        fade-in var(--anim-duration-superfast),
+        slide-in var(--anim-duration-superfast) ease-out;
+}
+@keyframes slide-in {
+    0% {
+        translate: 0 4px;
+    }
+    100% {
+        translate: 0 0;
+    }
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* Alternate Checkboxes */
+
+body:not(.disable-alternative-checkboxes) input[data-task="<"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="<"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="<"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task=">"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task=">"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task=">"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="d"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="d"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="d"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="u"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="u"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="u"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="S"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="S"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="S"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="“"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="“"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="“"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="\""]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="\""]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="\""]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="c"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="c"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="c"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="p"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="p"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="p"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="n"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="n"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="n"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="b"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="b"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="b"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="l"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="l"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="l"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="I"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="I"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="I"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="*"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="*"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="*"]>p>input:checked {
+    --checkbox-marker-color: transparent;
+    border: none;
+    border-radius: 0;
+    background-image: none;
+    background-color: currentColor;
+    -webkit-mask-size: var(--checkbox-icon);
+    -webkit-mask-position: 50% 50%
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="!"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="!"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="!"]>p>input:checked {
+    --checkbox-color: var(--color-orange);
+    --checkbox-color-hover: var(--color-orange);
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="!"]:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="!"]>input:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="!"]>p>input:checked:after {
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'%3e%3cpath fill='black' fill-rule='evenodd' d='M8 0a2.463 2.463 0 0 0-2.43 2.864v.002L6.686 9.55a1.334 1.334 0 0 0 2.63 0l1.114-6.685v-.002A2.463 2.463 0 0 0 8 0Zm0 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z' clip-rule='evenodd'/%3e%3c/svg%3e");
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="?"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="?"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="?"]>p>input:checked {
+    --checkbox-color: var(--color-pink);
+    --checkbox-color-hover: var(--color-pink);
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="?"]:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="?"]>input:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="?"]>p>input:checked:after {
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'%3e%3cpath fill='black' d='M12.871 3.692c0 3.56-3.956 3.319-3.956 5.78v.014c0 .284-.23.514-.514.514H6.243a.514.514 0 0 1-.515-.514V9.34c0-3.803 3.473-3.56 3.473-5.341 0-.77-.571-1.23-1.517-1.23-.768 0-1.554.335-2.268 1.022a.512.512 0 0 1-.67.031l-1.419-1.11a.513.513 0 0 1-.056-.76C4.457.731 5.997 0 8.036 0c3.23 0 4.835 1.736 4.835 3.692ZM9.355 14c0 1.099-.88 2-2 2-1.1 0-2-.901-2-2s.9-2 2-2c1.12 0 2 .901 2 2Z'/%3e%3c/svg%3e");
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="*"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="*"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="*"]>p>input:checked {
+    --checkbox-color-hover: var(--color-yellow);
+    color: var(--color-yellow);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><path d="M8.91,.58c-.08-.17-.21-.32-.37-.42C8.38,.05,8.19,0,8,0s-.38,.05-.54,.16c-.16,.1-.29,.25-.37,.42l-1.93,4.12L.85,5.36c-.18,.03-.35,.1-.49,.22-.14,.12-.25,.27-.3,.45-.06,.17-.07,.36-.03,.54,.04,.18,.13,.34,.26,.48l3.15,3.23-.75,4.57c-.03,.19,0,.38,.06,.55,.07,.17,.19,.32,.35,.43,.15,.11,.33,.17,.52,.18,.19,0,.37-.03,.54-.12l3.84-2.13,3.84,2.13c.16,.09,.35,.13,.54,.12,.19-.01,.37-.07,.52-.18,.15-.11,.27-.26,.35-.43,.07-.17,.09-.36,.06-.55l-.75-4.57,3.15-3.23c.13-.13,.22-.3,.26-.48,.04-.18,.03-.37-.03-.54-.06-.17-.16-.33-.31-.45-.14-.12-.31-.2-.49-.22l-4.31-.66L8.91,.58Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="i"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="i"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="i"]>p>input:checked {
+    --checkbox-color: var(--color-cyan);
+    --checkbox-color-hover: var(--color-cyan);
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="i"]:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="i"]>input:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="i"]>p>input:checked:after {
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'%3e%3cpath fill='black' d='M10.34 14.025c-.007.002-.56.186-1.04.186-.265 0-.372-.055-.406-.08-.168-.116-.48-.335.054-1.4l1-1.993c.593-1.184.681-2.33.245-3.226-.356-.733-1.039-1.236-1.92-1.416A5 5 0 0 0 7.315 6C5.466 6 4.221 7.08 4.17 7.125a.5.5 0 0 0 .493.848c.005-.002.559-.187 1.04-.187.262 0 .368.055.401.078.17.119.482.34-.05 1.403l-1.001 1.995c-.594 1.185-.681 2.33-.245 3.225.356.733 1.038 1.236 1.921 1.416.314.063.636.097.954.097 1.85 0 3.096-1.08 3.148-1.126a.5.5 0 0 0-.49-.85ZM9.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z'/%3e%3c/svg%3e");
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="/"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="/"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="/"]>p>input:checked {
+    --checkbox-color-hover: var(--color-yellow);
+    --checkbox-color: var(--color-yellow);
+    border: 2px var(--color-yellow) solid;
+    background: conic-gradient(var(--color-yellow) 0% 37.5%, transparent 37.5% 100%);
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="/"]:checked:hover,
+body:not(.disable-alternative-checkboxes) li[data-task="/"]>input:checked:hover,
+body:not(.disable-alternative-checkboxes) li[data-task="/"]>p>input:checked:hover {
+    background: conic-gradient(var(--color-yellow) 0% 37.5%, transparent 37.5% 100%);
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="/"]:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="/"]>input:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="/"]>p>input:checked:after {
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-mask-image: none;
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="I"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="I"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="I"]>p>input:checked {
+    --checkbox-color-hover: var(--color-orange);
+    color: var(--color-orange);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><g><rect class="cls-1" width="16" height="16"/><path d="M9,1c0-.27-.11-.52-.29-.71-.19-.19-.44-.29-.71-.29s-.52,.11-.71,.29c-.19,.19-.29,.44-.29,.71v1c0,.27,.11,.52,.29,.71,.19,.19,.44,.29,.71,.29s.52-.11,.71-.29c.19-.19,.29-.44,.29-.71V1Zm4.66,2.76c.18-.19,.28-.44,.28-.7,0-.26-.11-.51-.29-.7s-.44-.29-.7-.29c-.26,0-.51,.1-.7,.28l-.71,.71c-.18,.19-.28,.44-.28,.7,0,.26,.11,.51,.29,.7s.44,.29,.7,.29c.26,0,.51-.1,.7-.28l.71-.71Zm2.34,4.24c0,.27-.11,.52-.29,.71-.19,.19-.44,.29-.71,.29h-1c-.27,0-.52-.11-.71-.29-.19-.19-.29-.44-.29-.71s.11-.52,.29-.71c.19-.19,.44-.29,.71-.29h1c.27,0,.52,.11,.71,.29,.19,.19,.29,.44,.29,.71ZM3.05,4.46c.09,.1,.2,.17,.32,.22,.12,.05,.25,.08,.39,.08,.13,0,.26-.02,.39-.07,.12-.05,.23-.12,.33-.22,.09-.09,.17-.21,.22-.33,.05-.12,.08-.25,.07-.39,0-.13-.03-.26-.08-.39-.05-.12-.13-.23-.22-.32l-.71-.71c-.19-.18-.44-.28-.7-.28-.26,0-.51,.11-.7,.29s-.29,.44-.29,.7c0,.26,.1,.51,.28,.7l.71,.71Zm-.05,3.54c0,.27-.11,.52-.29,.71-.19,.19-.44,.29-.71,.29H1c-.27,0-.52-.11-.71-.29-.19-.19-.29-.44-.29-.71s.11-.52,.29-.71c.19-.19,.44-.29,.71-.29h1c.27,0,.52,.11,.71,.29,.19,.19,.29,.44,.29,.71Zm3,6v-1h4v1c0,.53-.21,1.04-.59,1.41-.38,.38-.88,.59-1.41,.59s-1.04-.21-1.41-.59c-.38-.38-.59-.88-.59-1.41Zm4-2c.02-.34,.21-.65,.48-.86,.65-.51,1.13-1.22,1.36-2.02,.23-.8,.21-1.65-.06-2.43-.27-.79-.78-1.47-1.46-1.95-.68-.48-1.49-.74-2.32-.74s-1.64,.26-2.32,.74c-.68,.48-1.19,1.16-1.46,1.95-.27,.79-.29,1.64-.06,2.43,.23,.8,.71,1.5,1.36,2.02,.27,.21,.46,.52,.48,.86h4Z"/></g></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="l"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="l"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="l"]>p>input:checked {
+    --checkbox-color-hover: var(--color-red);
+    color: var(--color-red);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><path d="M8,.12c-1.64,0-3.21,.65-4.37,1.81-1.16,1.16-1.81,2.73-1.81,4.37,0,1.34,.44,2.64,1.25,3.71,0,0,.17,.22,.2,.25l4.74,5.6,4.75-5.6s.19-.25,.19-.25h0c.81-1.07,1.25-2.37,1.25-3.71,0-1.64-.65-3.21-1.81-4.37C11.21,.78,9.64,.13,8,.12Zm0,8.44c-.45,0-.88-.13-1.25-.38-.37-.25-.66-.6-.83-1.01-.17-.41-.21-.86-.13-1.3,.09-.44,.3-.84,.62-1.15,.31-.31,.72-.53,1.15-.62,.44-.09,.89-.04,1.3,.13,.41,.17,.76,.46,1.01,.83,.25,.37,.38,.81,.38,1.25,0,.6-.24,1.17-.66,1.59-.42,.42-.99,.66-1.59,.66Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="-"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="-"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="-"]>p>input:checked {
+    --checkbox-color: var(--text-faint);
+    --checkbox-color-hover: var(--text-faint);
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="-"]:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="-"]>input:checked:after,
+body:not(.disable-alternative-checkboxes) li[data-task="-"]>p>input:checked:after {
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'%3e%3cpath fill='black' fill-rule='evenodd' d='M0 8a1.5 1.5 0 0 1 1.5-1.5h13a1.5 1.5 0 0 1 0 3h-13A1.5 1.5 0 0 1 0 8Z' clip-rule='evenodd'/%3e%3c/svg%3e");
+}
+
+body:not(.disable-alternative-checkboxes):not(.tasks) .markdown-preview-view ul li[data-task="-"].task-list-item.is-checked,
+body:not(.disable-alternative-checkboxes):not(.tasks) .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task]:is([data-task="-"]),
+body:not(.disable-alternative-checkboxes):not(.tasks) li[data-task="-"].task-list-item.is-checked {
+    color: var(--text-faint);
+    text-decoration: line-through solid var(--text-faint) 1px
+}
+
+
+body:not(.disable-alternative-checkboxes) input[data-task="b"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="b"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="b"]>p>input:checked {
+    --checkbox-color-hover: var(--color-blue);
+    color: var(--color-blue);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}.cls-2{fill-rule:evenodd;}</style></defs><rect class="cls-1" width="16" height="16"/><path class="cls-2" d="M4.25,.5c-.6,0-1.17,.24-1.59,.66-.42,.42-.66,.99-.66,1.59V14.1c0,.2,.05,.39,.15,.56,.1,.17,.24,.31,.41,.41,.17,.1,.36,.15,.56,.15,.2,0,.39-.05,.56-.15l3.94-2.25c.11-.06,.24-.1,.37-.1s.26,.03,.37,.1l3.95,2.25c.17,.1,.36,.15,.56,.15,.2,0,.39-.05,.56-.15,.17-.1,.31-.24,.41-.41s.15-.36,.15-.56V2.75c0-.6-.24-1.17-.66-1.59-.42-.42-.99-.66-1.59-.66H4.25Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="n"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="n"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="n"]>p>input:checked {
+    --checkbox-color-hover: var(--color-cyan);
+    color: var(--color-cyan);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><path d="M2.75,14.75c-.41,0-.77-.15-1.06-.44-.29-.29-.44-.65-.44-1.06V2.75c0-.41,.15-.77,.44-1.06,.29-.29,.65-.44,1.06-.44H13.25c.41,0,.77,.15,1.06,.44,.29,.29,.44,.65,.44,1.06v7.5l-4.5,4.5H2.75Zm4.5-5.25c.21,0,.39-.07,.53-.22,.14-.14,.22-.32,.22-.53s-.07-.39-.22-.53c-.14-.14-.32-.22-.53-.22h-2.25c-.21,0-.39,.07-.53,.22-.14,.14-.22,.32-.22,.53s.07,.39,.22,.53c.14,.14,.32,.22,.53,.22h2.25Zm3.75-3c.21,0,.39-.07,.53-.22,.14-.14,.22-.32,.22-.53s-.07-.39-.22-.53c-.14-.14-.32-.22-.53-.22H5c-.21,0-.39,.07-.53,.22-.14,.14-.22,.32-.22,.53s.07,.39,.22,.53,.32,.22,.53,.22h6Zm-1.5,6.75l3.75-3.75h-3c-.21,0-.39,.07-.53,.22s-.22,.32-.22,.53v3Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="p"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="p"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="p"]>p>input:checked {
+    --checkbox-color-hover: var(--color-green);
+    color: var(--color-green);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><path class="cls-1" d="M0,16H16V0H0V16Z"/><g><path d="M3.33,15h-.72c-.33,0-.66-.13-.9-.35-.25-.23-.4-.54-.43-.87L.73,7.11c-.02-.18,0-.37,.07-.54,.06-.18,.16-.34,.28-.47,.13-.14,.28-.25,.45-.32,.17-.07,.35-.11,.54-.11h1.27c.36,0,.69,.14,.94,.39,.25,.25,.39,.59,.39,.94v6.67c0,.35-.14,.7-.39,.94-.25,.25-.59,.39-.94,.39Z"/><path d="M15.4,7.69l-1.79,6.34c-.08,.28-.25,.53-.48,.7-.23,.17-.52,.27-.81,.27H6.67c-.36,0-.69-.14-.94-.39-.25-.25-.39-.59-.39-.94V7.13c0-.53,.32-1.02,.81-1.25,.79-.37,1.38-.82,1.62-1.22,.36-.6,.53-1.78,.57-2.65,0-.06,0-.12,.01-.18,.06-.41,.34-.72,.73-.8,.07-.01,.14-.02,.21-.02,.8,0,1.73,.83,2.12,1.48,.29,.48,.41,1.09,.36,1.84-.03,.55-.18,1.05-.33,1.55l-.04,.12h2.72c.21,0,.41,.05,.6,.14,.18,.09,.34,.23,.47,.39,.12,.17,.21,.35,.24,.55,.04,.2,.03,.41-.03,.61ZM9,1.94h0Z"/></g></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="c"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="c"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="c"]>p>input:checked {
+    --checkbox-color-hover: var(--color-red);
+    color: var(--color-red);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><path class="cls-1" d="M0,0H16V16H0V0Z"/><g><path d="M3.33,1h-.72c-.33,0-.66,.13-.9,.35-.25,.23-.4,.54-.43,.87l-.56,6.67c-.02,.18,0,.37,.07,.54,.06,.18,.16,.34,.28,.47,.13,.14,.28,.25,.45,.32,.17,.07,.35,.11,.54,.11h1.27c.36,0,.69-.14,.94-.39,.25-.25,.39-.59,.39-.94V2.33c0-.35-.14-.7-.39-.94-.25-.25-.59-.39-.94-.39Z"/><path d="M15.4,8.31l-1.79-6.34c-.08-.28-.25-.53-.48-.7-.23-.17-.52-.27-.81-.27H6.67c-.36,0-.69,.14-.94,.39-.25,.25-.39,.59-.39,.94v6.54c0,.53,.32,1.02,.81,1.25,.79,.37,1.38,.82,1.62,1.22,.36,.6,.53,1.78,.57,2.65,0,.06,0,.12,.01,.18,.06,.41,.34,.72,.73,.8,.07,.01,.14,.02,.21,.02,.8,0,1.73-.83,2.12-1.48,.29-.48,.41-1.09,.36-1.84-.03-.55-.18-1.05-.33-1.55l-.04-.12h2.72c.21,0,.41-.05,.6-.14,.18-.09,.34-.23,.47-.39,.12-.17,.21-.35,.24-.55,.04-.2,.03-.41-.03-.61Zm-6.4,5.75h0Z"/></g></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="“"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="“"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="“"]>p>input:checked,
+body:not(.disable-alternative-checkboxes) input[data-task="\""]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="\""]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="\""]>p>input:checked {
+    --checkbox-color-hover: var(--color-purple);
+    color: var(--color-purple);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><path d="M2.46,4.19c.94-1.01,2.35-1.53,4.21-1.53h.67v1.88l-.54,.11c-.91,.18-1.55,.54-1.89,1.07-.18,.28-.28,.61-.29,.94h2.05c.18,0,.35,.07,.47,.2,.13,.13,.2,.29,.2,.47v4.67c0,.74-.6,1.33-1.33,1.33H2c-.18,0-.35-.07-.47-.2-.13-.12-.2-.29-.2-.47V7.39c0-.07-.13-1.83,1.13-3.19ZM13.33,13.33h-4c-.18,0-.35-.07-.47-.2-.13-.12-.2-.29-.2-.47V7.39c0-.07-.13-1.83,1.13-3.19,.94-1.01,2.35-1.53,4.21-1.53h.67v1.88l-.54,.11c-.91,.18-1.55,.54-1.89,1.07-.18,.28-.28,.61-.29,.94h2.05c.18,0,.35,.07,.47,.2,.12,.13,.2,.29,.2,.47v4.67c0,.74-.6,1.33-1.33,1.33Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="S"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="S"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="S"]>p>input:checked {
+    --checkbox-color-hover: var(--color-green);
+    color: var(--color-green);
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'%3e%3cpath fill='black' d='M12.781 8.34c-.84-.665-2.146-1.247-3.354-1.715V4.396a28.48 28.48 0 0 1 2.123.772c.096.04.209.006.265-.082l1.193-1.805a.219.219 0 0 0-.079-.314c-.68-.365-2.072-.93-3.502-1.293V.366a.27.27 0 0 0-.27-.271H6.985a.271.271 0 0 0-.271.271v.973c-2.014.092-3.38.795-4.166 2.147-.616 1.06-.613 2.255.004 3.118.645.922 1.699 1.332 3.031 1.851l.172.066c.309.118.634.239.959.359v2.715c-1.41-.335-2.736-1.023-2.98-1.189a.218.218 0 0 0-.296.048l-1.444 1.883a.211.211 0 0 0-.043.163.22.22 0 0 0 .086.145c.874.648 2.145 1.266 3.403 1.654a12.4 12.4 0 0 0 1.275.316v1.018c0 .148.121.27.271.27h2.173a.27.27 0 0 0 .27-.27v-.845c1.928-.16 3.368-.997 4.192-2.45.793-1.402.49-2.858-.839-3.998ZM6.712 4.014v1.643c-.624-.2-.993-.394-.953-.872.04-.49.51-.69.954-.771Zm2.716 5.875c.458.205.806.42.927.689.069.152.063.326-.016.533-.14.364-.502.553-.912.649V9.889Z'/%3e%3c/svg%3e");
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="u"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="u"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="u"]>p>input:checked {
+    --checkbox-color-hover: var(--color-green);
+    color: var(--color-green);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}.cls-2{fill-rule:evenodd;}</style></defs><rect class="cls-1" width="16" height="16"/><path class="cls-2" d="M10,5c-.27,0-.52-.11-.71-.29-.19-.19-.29-.44-.29-.71s.11-.52,.29-.71c.19-.19,.44-.29,.71-.29h5c.27,0,.52,.11,.71,.29,.19,.19,.29,.44,.29,.71v5c0,.27-.11,.52-.29,.71-.19,.19-.44,.29-.71,.29s-.52-.11-.71-.29c-.19-.19-.29-.44-.29-.71v-2.59l-4.29,4.29c-.19,.19-.44,.29-.71,.29s-.52-.11-.71-.29l-2.29-2.29L1.71,12.71c-.19,.18-.44,.28-.7,.28-.26,0-.51-.11-.7-.29S.01,12.26,.01,12c0-.26,.1-.51,.28-.7L5.29,6.29c.19-.19,.44-.29,.71-.29s.52,.11,.71,.29l2.29,2.29,3.59-3.59h-2.59Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="d"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="d"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="d"]>p>input:checked {
+    --checkbox-color-hover: var(--color-red);
+    color: var(--color-red);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}.cls-2{fill-rule:evenodd;}</style></defs><rect class="cls-1" width="16" height="16"/><path class="cls-2" d="M10,11c-.27,0-.52,.11-.71,.29-.19,.19-.29,.44-.29,.71s.11,.52,.29,.71c.19,.19,.44,.29,.71,.29h5c.27,0,.52-.11,.71-.29,.19-.19,.29-.44,.29-.71V7c0-.27-.11-.52-.29-.71-.19-.19-.44-.29-.71-.29s-.52,.11-.71,.29c-.19,.19-.29,.44-.29,.71v2.59l-4.29-4.29c-.19-.19-.44-.29-.71-.29s-.52,.11-.71,.29l-2.29,2.29L1.71,3.29c-.19-.18-.44-.28-.7-.28-.26,0-.51,.11-.7,.29S.01,3.74,.01,4c0,.26,.1,.51,.28,.7l5,5c.19,.19,.44,.29,.71,.29s.52-.11,.71-.29l2.29-2.29,3.59,3.59h-2.59Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task=">"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task=">"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task=">"]>p>input:checked {
+    --checkbox-color-hover: var(--color-pink);
+    color: var(--color-pink);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><path d="M1.72,1.05c-.08-.04-.18-.06-.27-.05-.09,0-.18,.04-.26,.1-.07,.06-.13,.13-.16,.22-.03,.09-.04,.18-.02,.27l1.4,4.85c.03,.09,.08,.17,.15,.23,.07,.06,.16,.1,.25,.12l5.69,.95c.27,.05,.27,.44,0,.49l-5.69,.95c-.09,.02-.18,.06-.25,.12s-.12,.14-.15,.23l-1.4,4.85c-.02,.09-.01,.19,.02,.27,.03,.09,.09,.16,.16,.22,.07,.06,.16,.09,.26,.1,.09,0,.19,0,.27-.05l13-6.5c.08-.04,.15-.11,.2-.18,.05-.08,.07-.17,.07-.26s-.03-.18-.07-.26c-.05-.08-.12-.14-.2-.18L1.72,1.05Z"/></svg>');
+}
+
+body:not(.disable-alternative-checkboxes) input[data-task="<"]:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="<"]>input:checked,
+body:not(.disable-alternative-checkboxes) li[data-task="<"]>p>input:checked {
+    --checkbox-color-hover: var(--color-blue);
+    color: var(--color-blue);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8"?><svg id="svg0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs><style>.cls-1{fill:none;}</style></defs><rect class="cls-1" width="16" height="16"/><path d="M2.75,15.5H13.25c.83,0,1.5-.67,1.5-1.5V3.5c0-.83-.67-1.5-1.5-1.5h-1.5V.5h-1.5v1.5H5.75V.5h-1.5v1.5h-1.5c-.83,0-1.5,.67-1.5,1.5V14c0,.83,.67,1.5,1.5,1.5Zm0-11.25H13.25v1.5H2.75v-1.5Z"/></svg>');
+}
+
+/** Sidebars **/
+
+/* Stop the scrollbar from causing layout shifts */
+.nav-files-container {
+    scrollbar-gutter: stable;
+    padding-right: var(--size-2-2);
+}
+
+/** Canvas **/
+
+/* Changed in Style Settings */
+
+/** Loading Screen **/
+
+/* Text trees */
+.progress-bar-message::before {
+    content: "🌲 ";
+}
+.progress-bar-message::after {
+    content: " 🌲";
+}
+
+/* Progress bars */
+.progress-bar-indicator {
+    height: 12px;
+    overflow-y: hidden;
+    width: min(90vw, 1200px);
+}
+.progress-bar-indicator,
+.progress-bar-subline {
+    border-radius: 12px;
+}
+.progress-bar-line,
+.progress-bar-subline {
+    overflow: hidden;
+    height: 100%;
+}
+
+/**** Markdown ****/
+
+/** Headers **/
+
+/* Fix update formatting coloring */
+.cm-formatting-header {
+    color: unset;
+}
+
+/* Remove top padding from the first element in reading mode (presumably a header) */
+.mod-header + div:has(pre.frontmatter) + div > *,
+.mod-header + div > * {
+    margin-top: 0;
+}
+
+/** Emphasis **/
+
+/* Bold and italic */
+.cm-s-obsidian span.cm-strong,
+strong,
+.cm-s-obsidian span.cm-em,
+em,
+.language-markdown :is(.bold, .italic) > *,
+span:is(.cm-em, .cm-strong) + .cm-widgetBuffer + span.math,
+span.math:has(+ .cm-widgetBuffer + span:is(.cm-em, .cm-strong)) {
+    color: var(--fg-purple);
+}
+
+/* Italic color */
+.cm-s-obsidian span.cm-em,
+em {
+    color: var(--fg-orange);
+}
+
+/* Strike through */
+.cm-strikethrough,
+del {
+    color: var(--text-faint);
+}
+
+/** Code **/
+
+/* Inline code */
+.cm-s-obsidian
+    span.cm-inline-code:not(.cm-formatting):not(
+        .cm-formatting + .cm-inline-code
+    ),
+.markdown-rendered code {
+    background-color: var(--code-background);
+    padding: 0.1em 0.25em;
+    border-radius: var(--radius-s);
+    font-size: var(--code-size) !important; /* required for lp */
+}
+/* Fix other elements' inline code */
+.cm-s-obsidian span.cm-inline-code:not(.cm-formatting),
+.markdown-rendered
+    :is(table, p, li, .callout-title-inner, h1, h2, h3, h4, h5, h6)
+    code {
+    color: var(--code-inline);
+}
+
+/* Codeblock */
+.cm-s-obsidian pre.HyperMD-codeblock {
+    background-color: var(--code-background);
+}
+pre {
+    border: 1px solid var(--code-header);
+}
+.HyperMD-codeblock {
+    border-color: var(--code-header);
+    border-style: solid;
+    border-width: 0 1px 0;
+}
+.HyperMD-codeblock-begin {
+    border-width: 1px 1px 0;
+}
+.HyperMD-codeblock-end {
+    border-width: 0 1px 1px;
+}
+
+/* Disable wrap on language blocks */
+.markdown-reading-view .markdown-preview-view pre:not(.frontmatter) code {
+    white-space: pre;
+}
+
+/* Codeblock top bars */
+pre[class^="language-"] {
+    padding-top: calc(
+        var(--size-4-2) + var(--code-size) * var(--line-height-normal) + 1px
+    );
+}
+pre[class^="language-"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: calc(var(--code-size) * var(--line-height-normal));
+    background-color: var(--code-header);
+}
+.HyperMD-codeblock-begin-bg:not(:has(> .code-block-flair > *)):has(
+        > .code-block-flair
+    ) {
+    overflow: hidden;
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: var(--code-header);
+        /* border-radius: 4px 4px 0 0; */
+    }
+}
+
+/* Codeblock language labels */
+pre[class^="language-"]::after {
+    content: attr(class);
+    position: absolute;
+    top: 0;
+    right: 6px;
+    padding: 0 4px;
+    height: calc(1em * var(--line-height-normal));
+    display: flex;
+    place-items: center;
+    color: var(--text-muted);
+    font-size: 0.875em;
+}
+.markdown-source-view.mod-cm6 .code-block-flair:not(:has(> svg)) {
+    top: 0;
+    padding: 0 4px;
+    height: calc(1em * var(--line-height-normal));
+    display: flex;
+    place-items: center;
+    font-family: var(--font-monospace);
+    font-size: 1em;
+}
+.markdown-rendered pre[class^="language-"] button.copy-code-button {
+    top: calc(6px + var(--code-size) * var(--line-height-normal));
+}
+
+pre.language-applescript::after {
+    content: "AppleScript";
+}
+pre.language-armasm::after,
+pre.language-arm-asm::after {
+    content: "ARM Assembly";
+}
+pre.language-bash::after {
+    content: "Bash";
+}
+pre.language-c::after {
+    content: "C";
+}
+pre.language-cpp::after {
+    content: "C++";
+}
+pre.language-cs::after {
+    content: "C#";
+}
+pre.language-css::after {
+    content: "CSS";
+}
+pre.language-flow::after {
+    content: "Flow";
+}
+pre.language-git::after {
+    content: "GIT";
+}
+pre.language-haskell::after {
+    content: "Haskell";
+}
+pre.language-html::after {
+    content: "HTML";
+}
+pre.language-ini::after {
+    content: "INI";
+}
+pre.language-java::after {
+    content: "JAVA";
+}
+pre.language-javascript::after {
+    content: "JavaScript";
+}
+pre.language-js::after {
+    content: "JavaScript";
+}
+pre.language-json::after {
+    content: "JSON";
+}
+pre.language-lua::after {
+    content: "Lua";
+}
+pre.language-makefile::after {
+    content: "Makefile";
+}
+pre.language-md::after,
+pre.language-markdown::after {
+    content: "Markdown";
+}
+pre.language-matlab::after {
+    content: "MATLAB";
+}
+pre.language-nginx::after {
+    content: "Nginx";
+}
+pre.language-node::after {
+    content: "Node";
+}
+pre.language-php::after {
+    content: "PHP";
+}
+pre.language-py::after {
+    content: "Python";
+}
+pre.language-python::after {
+    content: "Python";
+}
+pre.language-r::after {
+    content: "R";
+}
+pre.language-react::after {
+    content: "React";
+}
+pre.language-regex::after {
+    content: "Regex";
+}
+pre.language-rust::after {
+    content: "Rust";
+}
+pre.language-sequence::after {
+    content: "Sequence";
+}
+pre.language-shell::after {
+    content: "Shell";
+}
+pre.language-sql::after {
+    content: "SQL";
+}
+pre.language-text::after {
+    content: "Plain Text";
+}
+pre.language-ts::after {
+    content: "TypeScript";
+}
+pre.language-toml::after {
+    content: "TOML";
+}
+pre.language-txt::after {
+    content: "Plain Text";
+}
+pre.language-typescript::after {
+    content: "TypeScript";
+}
+pre.language-url::after {
+    content: "URL";
+}
+pre.language-vim::after {
+    content: "vimrc";
+}
+pre.language-xml::after {
+    content: "XML";
+}
+pre.language-yaml::after {
+    content: "YAML";
+}
+pre.language-zsh::after {
+    content: "zsh";
+}
+
+/** Links **/
+
+:root a {
+    transition: opacity 0s;
+}
+
+/* Unresolved links */
+:root:root a.is-unresolved:hover,
+.markdown-source-view.mod-cm6 .is-unresolved .cm-underline:hover {
+    text-decoration-color: var(--link-unresolved-decoration-color-hover);
+    color: var(--link-unresolved-color-hover);
+}
+.cm-s-obsidian span.cm-hmd-internal-link:hover {
+    text-decoration: none;
+}
+
+/** Lists **/
+
+.markdown-source-view span.list-bullet {
+    padding-right: 0.3rem;
+}
+.markdown-preview-view .list-bullet::after {
+    font-size: 19px;
+}
+.markdown-source-view .list-bullet::after {
+    font-size: 19px;
+}
+
+/* Loose lists in reading mode */
+:root:root:root li > p {
+    margin-block: var(--p-spacing);
+}
+
+/* Fix list bullets and indentation lines offset for reading mode */
+.markdown-rendered .list-bullet {
+    margin-left: -12px;
+}
+:root .show-indentation-guide li :is(ul, ol)::before {
+    left: -11px;
+}
+ul > .task-list-item {
+    margin-left: 6px;
+}
+.show-indentation-guide .contains-task-list.has-list-bullet::before {
+    margin-left: -6px;
+}
+
+/* Fix ordered list checkboxes */
+ol > li.task-list-item.is-checked[data-task="x"] {
+    text-decoration: var(--checklist-done-decoration);
+    color: var(--checklist-done-color);
+}
+
+/* Indentation lines*/
+.cm-indent::before,
+ul::before,
+ol::before {
+    opacity: 0.5;
+    border-right: 2px solid var(--fg-blue) !important;
+}
+
+/* Checkbox list */
+.markdown-source-view.mod-cm6 input.task-list-item-checkbox {
+    border-width: 1px;
+}
+input.task-list-item-checkbox:hover {
+    border-color: var(--header-blue);
+}
+input.task-list-item-checkbox:checked {
+    box-shadow: inset 0 0 0 calc(0.0625 * var(--font-text-size))
+        var(--background-primary);
+    transition: box-shadow 0s;
+}
+input.task-list-item-checkbox:checked::after {
+    -webkit-mask-size: calc(50% + 1px);
+}
+
+.checkbox-container {
+    background-color: var(--interactive-before);
+    transition: background-color var(--anim-duration-moderate)
+        cubic-bezier(0, 0.5, 0, 1);
+}
+.checkbox-container:after {
+    background-color: var(--interactive-accent);
+}
+.checkbox-container.is-enabled:after {
+    background-color: var(--bg3);
+}
+
+/* Disable strikethrough on checked checkboxes */
+li.task-list-item.is-checked,
+.markdown-preview-view ul li.task-list-item.is-checked,
+.markdown-source-view.mod-cm6 .HyperMD-task-line[data-task]:is([data-task="x"], [data-task="-"]) {
+    text-decoration: none !important;
+    color: var(--text-faint) !important; /* Disabled/faint color */
+}
+
+/** Blockquotes **/
+
+.markdown-preview-view blockquote {
+    padding-block: 0.25em;
+    padding-left: 1.7ch;
+}
+
+/* Make blockquotes work in source view */
+.markdown-source-view:not(.is-live-preview) .HyperMD-quote {
+    background-color: var(--background-embed);
+    border-left: var(--blockquote-border-thickness) solid
+        var(--blockquote-border-color);
+}
+.markdown-source-view:not(.is-live-preview)
+    .cm-formatting-quote:not(.cm-formatting-quote-1) {
+    position: relative;
+}
+.markdown-source-view:not(.is-live-preview)
+    .cm-formatting-quote:not(.cm-formatting-quote-1)::before {
+    content: "\200b";
+    position: absolute;
+    width: 1px;
+    border-left: var(--blockquote-border-thickness) solid
+        var(--blockquote-border-color);
+    color: transparent;
+    left: -2px;
+}
+
+/** Tables **/
+
+.markdown-rendered table {
+    --line-height-tight: 1.375;
+}
+
+/* Fix table margin collapse bug and add table margins */
+/* They keep changing this and it breaks the theme every time, I'm quite annoyed... */
+.markdown-preview-view .block-language-dataview,
+.markdown-preview-view div:not([class]):has(> table) {
+    overflow: unset !important;
+
+    > table {
+        margin-block: var(--p-spacing);
+    }
+}
+
+/* Fix borders from Dataview */
+.table-view-table > thead > tr > th {
+    border-left: var(--table-header-border-width) solid
+        var(--table-header-border-color);
+    border-top: var(--table-header-border-width) solid
+        var(--table-header-border-color);
+    border-right: var(--table-header-border-width) solid
+        var(--table-header-border-color);
+}
+:root .table-view-table thead > tr > th {
+    border-width: var(--table-border-width) 0 3px var(--table-border-width);
+}
+:root .table-view-table thead > tr > th:last-child {
+    border-right-width: var(--table-border-width);
+}
+:root .table-view-table tbody > tr + tr > td {
+    border-top: var(--table-border-width) solid var(--table-border-color);
+}
+:root .table-view-table tbody > tr > td {
+    border-left: var(--table-border-width) solid var(--table-border-color);
+}
+:root .table-view-table tbody > tr > td:last-child {
+    border-right: var(--table-border-width) solid var(--table-border-color);
+}
+:root .table-view-table tbody > tr:last-child > td {
+    border-bottom: var(--table-border-width) solid var(--table-border-color);
+}
+
+/** Tags **/
+
+.cm-s-obsidian span.cm-hashtag,
+a.tag {
+    font-weight: 500;
+}
+
+/* Remove spacing between h1 + tag */
+div:has(+ div > p > .tag) > h1 {
+    margin-bottom: 0;
+}
+div:has(h1) + div p:has(.tag) {
+    margin-top: 0;
+}
+
+/** Embeds **/
+
+.markdown-embed {
+    --icon-opacity: 0.25;
+    padding-inline: 10px;
+    padding-block: 0.25rem;
+}
+
+/* Fix overflow blocks ruining margin collapse */
+.markdown-embed .markdown-preview-sizer > div {
+    overflow-x: unset !important;
+}
+
+/* Add a shadow to embeds */
+.cm-embed-block {
+    box-shadow: 0 4px 14px -2px hsla(0, 0%, 0%, 0%);
+    transition: box-shadow var(--anim-duration-fast) ease-out;
+}
+
+/* Reduce embed edit button opacity */
+.markdown-source-view.mod-cm6 .cm-embed-block:hover .edit-block-button {
+    opacity: 0.5;
+}
+.markdown-source-view.mod-cm6 .cm-embed-block:hover .edit-block-button:hover {
+    opacity: 1;
+}
+
+/*Embed titles*/
+.markdown-embed-title {
+    display: none;
+}
+
+/* Embed backgrounds */
+.internal-embed.is-loaded:not(.image-embed, [src$=".excalidraw"]) {
+    background-color: var(--blockquote-background-color);
+}
+
+/* Embed first header */
+.markdown-embed-content
+    .markdown-preview-section
+    .mod-header
+    + div
+    :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 0;
+}
+
+/* Embed last p */
+.markdown-embed-content .markdown-preview-section > div:last-child > p {
+    margin-bottom: 0;
+}
+
+/*
+    This snippet adds modification in the [[markdown link|modification]] format
+*/
+
+/* Clean embed (no background, padding, borders) */
+.markdown-embed[alt~="clean"] {
+    --blockquote-background-color: transparent;
+    border: none;
+    padding: 0;
+}
+/* Removes the first title */
+.markdown-embed[alt~="no-title"]
+    .markdown-preview-section
+    > :is(.mod-header, .mod-header + div:has(.frontmatter))
+    + div:has(h1, h2, h3, h4, h5, h6) {
+    display: none;
+}
+/* Removes the embed icon */
+.markdown-embed[alt~="no-link"] .markdown-embed-link {
+    display: none;
+}
+
+/** YAML **/
+
+/* Frontmatter error */
+.markdown-rendered .frontmatter.mod-failed:after {
+    height: 0;
+}
+.mod-error {
+    font-weight: 500;
+}
+
+/**** Graph ****/
+
+.graph-view.color-circle,
+.graph-view.color-fill-highlight {
+    color: var(--text-muted);
+}
+.graph-view.color-arrow {
+    color: var(--text-normal);
+    opacity: 0.5;
+}
+.graph-view.color-line {
+    color: var(--background-modifier-border);
+}
+.graph-view.color-fill-highlight,
+.graph-view.color-line-highlight {
+    color: var(--interactive-accent);
+}
+.graph-view.color-fill-unresolved {
+    color: var(--text-muted);
+    opacity: 0.4;
+}
+
+/**** Mobile ****/
+
+/* Add shadow to mobile navbar */
+.mobile-navbar {
+    box-shadow: 0 0 8px -4px var(--divider-color);
+}
+/* Remove new tab button backgrounds */
+.is-mobile .empty-state-action {
+    background-color: unset;
+}
+
+/**** Cursor ****/
+
+.cm-cursorLayer .cm-cursor {
+}
+
+/* animation of the blinking */
+.cm-cursorLayer {
+    /* deactivate built-in animation from CodeMirror */
+    animation-name: none !important; /* important needed */
+}
+
+.cm-cursorLayer .cm-cursor-secondary {
+    border-left-color: var(--text-accent) !important;
+    animation-iteration-count: infinite;
+    animation-duration: 1200ms;
+    animation-timing-function: steps(1);
+    animation-name: cm-blink;
+}
+
+/* Vim mode cursor */
+.cm-editor.cm-focused .cm-fat-cursor {
+    background: var(--fg);
+    color: var(--bg0);
+}
+
+.cm-editor:not(.cm-focused) .cm-fat-cursor {
+    outline-color: var(--fg);
+}
+
+/**** Style Settings ****/
+
+/* @settings
+
+name: Everforest Enchanted
+id: everforest-enchanted-theme
+collapsed: false
+settings:
+-
+    id: test-main-description
+    title: Welcome!
+    description: |
+        Use these settings to adjust basic extra settings or various extra elements of the theme. Visit the [GitHub Repo](https://github.com/FireIsGood/obsidian-everforest-enchanted) for more information.
+    type: info-text
+    markdown: true
+-
+    id: editor-settings
+    title: Editor
+    description: Folders, line length, line numbers, menu modal blur
+    type: heading
+    level: 1
+    collapsed: true
+-
+    id: folder-settings
+    title: Folders
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: highlighted-folders
+    title: Enable highlighted active folders
+    description: Adds a background on opened folders.
+    type: class-toggle
+-
+    id: line-length-settings
+    title: Line Length
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: readable-line-length-custom
+    title: Line length
+    description: Sets a custom readable line width in pixels.
+    type: variable-number
+    default: 700
+    format: px
+-
+    id: wide-width-readable-line-length-custom
+    title: Wide Line length
+    description: Sets a custom readable line width for the CSS class "wide-width" in pixels.
+    type: variable-number
+    default: 1000
+    format: px
+-
+    id: gutter-settings
+    title: Line Numbers
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: stacked-panes-gutter-disable-float
+    title: Disable stacked tabs floating line numbers
+    description: Disables custom line number floating in the stacked tab mode. This makes the line numbers shift over the content in stacked tabs. Use this if your panes are too thin to show them.
+    type: class-toggle
+-
+    id: menu-blur-settings
+    title: Menu modals
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: disable-menu-animations
+    title: Disable menu animations
+    description: Disables the floating-up animation of modal menus (e.g. settings, command palette).
+    type: class-toggle
+-
+    id: enable-menu-blur
+    title: Enable menu blur
+    description: Blur the content behind modal menus (e.g. settings, command palette).
+    type: class-toggle
+-
+    id: menu-blur-radius
+    title: Menu blur radius
+    description: The amount to blur in pixels.
+    type: variable-number
+    default: 5
+    format: px
+-
+    id: vim-cursor-settings
+    title: Vim
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: vim-curor-animate
+    title: Animate vim cursor
+    description: Adds an animation when moving the vim cursor.
+    type: class-toggle
+-
+    id: vim-cursor-speed
+    title: Vim cursor speed
+    description: Speed at which the cursor will move
+    type: variable-select
+    default: var(--anim-duration-superfast)
+    options:
+        -
+            label: FTL
+            value: 30ms
+        -
+            label: Light speed
+            value: 45ms
+        -
+            label: Fast
+            value: 55ms
+        -
+            label: Normal
+            value: var(--anim-duration-superfast)
+        -
+            label: Slow
+            value: var(--anim-duration-fast)
+        -
+            label: Very slow
+            value: var(--anim-duration-moderate)
+        -
+            label: Snail speed
+            value: var(--anim-duration-slow)
+        -
+            label: Molases in January
+            value: 1000ms
+        -
+            label: 0 degrees kelvin
+            value: 5s
+        -
+            label: The seconds hand of the analogue clock in your least favorite middle school class
+            value: 20s
+        -
+            label: Zeno's paradox
+            value: 60s
+-
+    id: element-settings
+    title: Elements
+    description: Canvas, headers, image embeds, links, lists, math blocks, tables
+    type: heading
+    level: 1
+    collapsed: true
+-
+    id: canvas-settings
+    title: Canvas
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: canvas-dot-size
+    title: Canvas - Background dot size
+    description: The size of dots on the canvas. It starts breaking past 10.
+    type: variable-number
+    default: 0.7
+    format: px
+-
+    id: header-settings
+    title: Headers
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: h1-settings
+    title: Header 1 settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: h1-underline
+    title: Headers - h1 underline
+    description: Enable h1 underline.
+    type: class-toggle
+    default: false
+-
+    id: h1-underline-style
+    title: Headers - h1 underline style
+    description: Change style of the h1 underline
+    type: variable-select
+    default: solid
+    options:
+        -
+            label: Solid
+            value: solid
+        -
+            label: Dotted
+            value: dotted
+        -
+            label: Dashed
+            value: dashed
+-
+    id: h2-settings
+    title: Header 2 settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: h2-underline
+    title: Headers - H2 underline
+    description: Enable h2 underline.
+    type: class-toggle
+    default: false
+-
+    id: h2-underline-style
+    title: Headers - H2 underline style
+    description: Change style of the h2 underline
+    type: variable-select
+    default: solid
+    options:
+        -
+            label: Solid
+            value: solid
+        -
+            label: Dotted
+            value: dotted
+        -
+            label: Dashed
+            value: dashed
+-
+    id: h3-settings
+    title: Header 3 settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: h3-underline
+    title: Headers - h3 underline
+    description: Enable h3 underline.
+    type: class-toggle
+    default: false
+-
+    id: h3-underline-style
+    title: Headers - h3 underline style
+    description: Change style of the h3 underline
+    type: variable-select
+    default: solid
+    options:
+        -
+            label: Solid
+            value: solid
+        -
+            label: Dotted
+            value: dotted
+        -
+            label: Dashed
+            value: dashed
+-
+    id: h4-settings
+    title: Header 4 settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: h4-underline
+    title: Headers - h4 underline
+    description: Enable h4 underline.
+    type: class-toggle
+    default: false
+-
+    id: h4-underline-style
+    title: Headers - h4 underline style
+    description: Change style of the h4 underline
+    type: variable-select
+    default: solid
+    options:
+        -
+            label: Solid
+            value: solid
+        -
+            label: Dotted
+            value: dotted
+        -
+            label: Dashed
+            value: dashed
+-
+    id: h5-settings
+    title: Header 5 settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: h5-underline
+    title: Headers - h5 underline
+    description: Enable h5 underline.
+    type: class-toggle
+    default: false
+-
+    id: h5-underline-style
+    title: Headers - h5 underline style
+    description: Change style of the h5 underline
+    type: variable-select
+    default: solid
+    options:
+        -
+            label: Solid
+            value: solid
+        -
+            label: Dotted
+            value: dotted
+        -
+            label: Dashed
+            value: dashed
+-
+    id: h6-settings
+    title: Header 6 settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: h6-underline
+    title: Headers - h6 underline
+    description: Enable h6 underline.
+    type: class-toggle
+    default: false
+-
+    id: h6-underline-style
+    title: Headers - h6 underline style
+    description: Change style of the h6 underline
+    type: variable-select
+    default: solid
+    options:
+        -
+            label: Solid
+            value: solid
+        -
+            label: Dotted
+            value: dotted
+        -
+            label: Dashed
+            value: dashed
+-
+    id: image-embed-settings
+    title: Image Embeds
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: image-embed-enable-zoom
+    title: Image Embeds - Enable zoom
+    description: Enable zooming in on images by clicking on them. Just like minimal! Note that mobile Obsidian already has this.
+    type: class-toggle
+-
+    id: image-embed-no-drag
+    title: Image Embeds - Disable dragging
+    description: Stop zoomed images from being dragged around. This breaks the blur keyword.
+    type: class-toggle
+-
+        id: image-embed-stretch
+        title: Image Embeds - Stretch all images to fit the full width
+        description: Makes all images stretch to fit the full width by default. Added as an option to revert behavior.
+        type: class-toggle
+-
+    id: link-settings
+    title: Links
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: external-link-remove-icon
+    title: Links - Remove external link icon
+    description: Removes the link icon from external links.
+    type: class-toggle
+-
+    id: list-settings
+    title: Lists
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: list-indent-custom
+    title: Lists - List indent size
+    description: The size of list item indents. The default value set here of 28px mimics the appearance of editing mode. If you want a more default experience, the default theme uses 2.25em which is essentially 36px. Currently does not work as intended due to JS changes in Obsidian 1.5 which is sad... There are technically workarounds but they would not be very clean.
+    type: variable-number
+    default: 28
+    format: px
+-
+    id: math-settings
+    title: Math blocks
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: disable-math-outline
+    title: Math blocks - Disable outline
+    description: Removes the outline around math blocks.
+    type: class-toggle
+-
+    id: table-settings
+    title: Tables
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: centered-tables
+    title: Tables - Center alignment
+    description: Aligns tables to the center.
+    type: class-toggle
+-
+    id: full-width-tables
+    title: Tables - Full width
+    description: Makes tables fit the full width.
+    type: class-toggle
+-
+    id: rounded-tables
+    title: Tables - Rounded corners
+    description: Adds a rounded effect to table corners. Automatically disabled when a table has rowspan as it is not possible to guarantee the correct corners are rounded.
+    type: class-toggle
+-
+    id: rounded-tables-radius
+    title: Tables - Rounded corners radius
+    description: The corner radius of rounded tables. You may need to reload tabs to see the effect.
+    type: variable-number
+    default: 8
+    format: px
+-
+    id: extra-appearance-settings
+    title: Extras
+    description: Background images, Stacked panes with a count, visual parity between modes
+    type: heading
+    level: 1
+    collapsed: true
+-
+    id: background-image
+    title: Background Image
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: background-image-description
+    title: Info
+    description: |
+        Adds background images. This is easiest to do with an external URL. If you want to use local images for offline access, you'll have to use a snippet. Check the [GitHub Repo documentation](https://github.com/FireIsGood/obsidian-everforest-enchanted/blob/main/custom_background_image.md) for more information.
+    type: info-text
+    markdown: true
+-
+    id: background-image-enabled
+    title: Background Image
+    description: Enables the background image.
+    type: class-toggle
+-
+    id: background-image-dark-url
+    title: Dark Mode Background URL
+    description: Set an online background image.
+    type: variable-text
+    default: url("http://")
+-
+    id: background-image-light-url
+    title: Light Mode Background URL
+    description: Set an online background image.
+    type: variable-text
+    default: url("http://")
+-
+    id: background-image-position
+    title: Background Position
+    description: Change where the image is centered.
+    type: variable-select
+    default: center
+    options:
+        -
+            label: Center
+            value: center
+        -
+            label: Top
+            value: top
+        -
+            label: Bottom
+            value: bottom
+        -
+            label: Left
+            value: left
+        -
+            label: Right
+            value: right
+        -
+            label: Top Left
+            value: top left
+        -
+            label: Top Right
+            value: top right
+        -
+            label: Bottom Left
+            value: bottom left
+        -
+            label: Bottom Right
+            value: bottom right
+-
+    id: pane-opacity
+    title: Pane Opacity
+    description: How opaque page backgrounds are.
+    type: variable-number-slider
+    default: 0.85
+    min: 0
+    max: 1
+    step: 0.05
+-
+    id: ui-opacity
+    title: UI Opacity
+    description: How opaque UI backgrounds are.
+    type: variable-number-slider
+    default: 0.85
+    min: 0
+    max: 1
+    step: 0.05
+-
+    id: tab-opacity
+    title: Tab Opacity
+    description: How opaque STACKED TAB backgrounds are.
+    type: variable-number-slider
+    default: 0.85
+    min: 0
+    max: 1
+    step: 0.05
+-
+    id: background-image-fun
+    title: Fun Settings
+    type: heading
+    level: 3
+    collapsed: true
+-
+    id: background-image-pane-view
+    title: Pane view
+    description: Changes pages to be panes on a transparent background. BEST USED WITH UI OPACITY 0!
+    type: class-toggle
+-
+    id: custom-stacked-panes
+    title: Stacked Pane Count
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: custom-stacked-panes-description
+    title: Info
+    description: |
+        This setting turns stacked panes from a pixel width to a number visible on screen at once. Check the [GitHub Repo documentation](https://github.com/FireIsGood/obsidian-everforest-enchanted/blob/main/custom_stacked_panes.md) for more information.
+    type: info-text
+    markdown: true
+-
+    id: custom-stacked-panes-enabled
+    title: Custom Stacked Panes
+    description: Changes stacked panes to fit a certain number on screen instead of using pixel values.
+    type: class-toggle
+-
+    id: custom-stacked-panes-count
+    title: Pane Count
+    description: The number of panes to show up at once.
+    type: variable-number-slider
+    default: 2
+    min: 1
+    max: 5
+    step: 1
+-
+    id: visual-parity
+    title: Visual Parity
+    type: heading
+    level: 2
+    collapsed: true
+-
+    id: visual-parity-description
+    title: Info
+    description: |
+        Changes reading mode to match editing mode visually. This mainly modifies the sizes of margins and makes the top element not have margin to simulare how it works in editing mode.
+    type: info-text
+    markdown: true
+-
+    id: visual-parity-enabled
+    title: Visual Parity
+    description: Enables visual parity.
+    type: class-toggle
+
+*/
+
+/** Improve style setting appearance **/
+/* Padding on the bottom */
+[data-type="style-settings"] .view-content > div:last-child,
+.vertical-tab-content > div:has(.style-settings-heading):last-child {
+    padding-bottom: 400px;
+}
+
+/* Remove default margins */
+[data-id="everforest-enchanted-theme"]
+    + .style-settings-container
+    .setting-item-heading {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Style headings */
+[data-id="everforest-enchanted-theme"]
+    + .style-settings-container
+    .setting-item-heading {
+    border-color: var(--setting-border-color);
+}
+.setting-item-heading > .setting-item-info > .setting-item-name {
+    color: var(--setting-border-color) !important;
+}
+/* Style heading containers */
+[data-id="everforest-enchanted-theme"]
+    + .style-settings-container
+    .setting-item-heading
+    + .style-settings-container {
+    margin-top: 2px;
+    padding-top: 16px;
+    padding-left: 25px;
+    border-width: 0 0 1px 1px;
+    border-style: dashed;
+    border-color: var(--setting-border-color);
+}
+/* Style the carat */
+.style-settings-collapse-indicator {
+    color: var(--setting-border-color);
+}
+
+/* Modify the style of setting items */
+.view-content
+    .style-settings-container
+    :is(.setting-item-control:has(input), input[type="text"]) {
+    width: 100%;
+    place-content: flex-start;
+}
+
+/* Heading colors */
+/* Yellow skipped for contrast. There will hopefully never be 6 levels of indentation */
+[data-level="1"],
+[data-level="1"] + .style-settings-container {
+    --setting-border-color: var(--header-red);
+    --setting-icon-color: var(--fg-red);
+}
+[data-level="2"],
+[data-level="2"] + .style-settings-container {
+    --setting-border-color: var(--header-orange);
+    --setting-icon-color: var(--fg-orange);
+}
+[data-level="3"],
+[data-level="3"] + .style-settings-container {
+    --setting-border-color: var(--header-green);
+    --setting-icon-color: var(--fg-green);
+}
+[data-level="4"],
+[data-level="4"] + .style-settings-container {
+    --setting-border-color: var(--header-blue);
+    --setting-icon-color: var(--fg-blue);
+}
+[data-level="5"],
+[data-level="5"] + .style-settings-container {
+    --setting-border-color: var(--header-purple);
+    --setting-icon-color: var(--fg-purple);
+}
+
+/** Editor Settings **/
+
+/* Highlighted folders */
+body.highlighted-folders .nav-folder:not(.is-collapsed, .mod-root) {
+    border-radius: var(--radius-s);
+    background-color: rgba(var(--mono-rgb-100), 0.05);
+}
+
+/* Menu blur */
+body:not(.is-translucent).enable-menu-blur .modal-bg {
+    backdrop-filter: blur(var(--menu-blur-radius, 5px));
+    opacity: 1 !important;
+}
+
+/* Vim cursor options */
+body.vim-curor-animate .cm-fat-cursor {
+    transition:
+        left var(--vim-cursor-speed, var(--anim-duration-superfast))
+            cubic-bezier(0.39, 0.575, 0.565, 1),
+        top var(--vim-cursor-speed, var(--anim-duration-superfast))
+            cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+/** Element Settings **/
+
+/* Custom dot pattern size (style settings) */
+.canvas-background > pattern > circle {
+    cx: var(--canvas-dot-size, 0.7);
+    cy: var(--canvas-dot-size, 0.7);
+    r: var(--canvas-dot-size, 0.7);
+}
+
+/* Header underlines */
+/* H1 underline option */
+body.h1-underline h1,
+body.h1-underline .HyperMD-header-1.cm-line {
+    border-bottom: 2px var(--h1-underline-style, solid)
+        var(--background-modifier-border);
+    padding-bottom: 2px;
+}
+/* H2 underline option */
+body.h2-underline h2,
+body.h2-underline .HyperMD-header-2.cm-line {
+    border-bottom: 2px var(--h2-underline-style, solid)
+        var(--background-modifier-border);
+    padding-bottom: 2px;
+}
+/* H3 underline option */
+body.h3-underline h3,
+body.h3-underline .HyperMD-header-3.cm-line {
+    border-bottom: 2px var(--h3-underline-style, solid)
+        var(--background-modifier-border);
+    padding-bottom: 2px;
+}
+/* H4 underline option */
+body.h4-underline h4,
+body.h4-underline .HyperMD-header-4.cm-line {
+    border-bottom: 2px var(--h4-underline-style, solid)
+        var(--background-modifier-border);
+    padding-bottom: 2px;
+}
+/* H5 underline option */
+body.h5-underline h5,
+body.h5-underline .HyperMD-header-5.cm-line {
+    border-bottom: 2px var(--h5-underline-style, solid)
+        var(--background-modifier-border);
+    padding-bottom: 2px;
+}
+/* H6 underline option */
+body.h6-underline h6,
+body.h6-underline .HyperMD-header-6.cm-line {
+    border-bottom: 2px var(--h6-underline-style, solid)
+        var(--background-modifier-border);
+    padding-bottom: 2px;
+}
+
+/* External links */
+body.external-link-remove-icon {
+    & .cm-formatting.external-link {
+        display: none;
+    }
+    & a.external-link {
+        background-image: none;
+        padding-right: unset;
+    }
+}
+
+/* Image zoom */
+body.image-embed-enable-zoom {
+    & .image-embed {
+        & img {
+            cursor: zoom-out;
+        }
+
+        &:active {
+            --zoom-embed-size: min(
+                90%,
+                calc(var(--readable-line-length-custom, 700px) + 120px)
+            );
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            max-width: 100%;
+            width: 100% !important;
+            margin: auto 0 !important;
+            inset: 0;
+            object-fit: contain;
+            z-index: 1;
+        }
+        &:active img {
+            width: var(--zoom-embed-size) !important;
+            max-height: 80%;
+            margin: 0 !important;
+            user-select: none;
+            object-fit: contain;
+        }
+        &:active::after {
+            margin-inline: 0 !important;
+            padding: 1ch;
+            font-size: large;
+            box-sizing: border-box;
+            width: var(--zoom-embed-size) !important;
+            background-color: var(--background-primary);
+        }
+        &:active::before {
+            content: "";
+            position: absolute;
+            background-color: var(--color-base-00);
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.75;
+        }
+    }
+
+    /* Option to disable dragging */
+    &.image-embed-no-drag .image-embed:active img {
+        pointer-events: none;
+    }
+
+    /* Hacky fix for callouts */
+    & .cm-embed-block.cm-callout:has(.image-embed:active) {
+        contain: none !important;
+    }
+}
+
+/* List indent size */
+/* Set in the body selector at the top */
+
+/* Math */
+/* Outlines for math blocks (enabled by default) */
+body:not(.disable-math-outline)
+    :is(
+        div.math-block,
+        span.math-block > mjx-container,
+        .math.math-block.cm-embed-block
+    ) {
+    border: 1px solid var(--bg5);
+    border-radius: 5px;
+}
+
+/* Tables */
+/* Centered tables */
+body.centered-tables table {
+    margin-inline: auto;
+}
+
+/* Full width tables */
+body.full-width-tables table {
+    width: 100%;
+}
+
+/* Rounded tables */
+body.rounded-tables :where(table:not(:has([rowspan]))) {
+    border-collapse: separate;
+    border-spacing: 0;
+
+    & :is(td, th) {
+        border-width: 0 var(--table-border-width) var(--table-border-width) 0;
+    }
+    & th:first-of-type {
+        border-top-left-radius: var(--rounded-tables-radius, 8px);
+    }
+    & th:last-of-type {
+        border-top-right-radius: var(--rounded-tables-radius, 8px);
+    }
+    & tr:last-of-type td:first-of-type {
+        border-bottom-left-radius: var(--rounded-tables-radius, 8px);
+    }
+    & tr:last-of-type td:last-of-type {
+        border-bottom-right-radius: var(--rounded-tables-radius, 8px);
+    }
+}
+
+/** Custom Stacked Panes **/
+
+.custom-stacked-panes-enabled .mod-vertical .mod-stacked .workspace-leaf {
+    max-width: calc(
+        (100% / var(--custom-stacked-panes-count, 2)) - 2.5rem
+    ) !important;
+    width: 100% !important;
+}
+
+/** Custom Background Image **/
+
+.theme-dark {
+    --background-image-url: var(--background-image-dark-url);
+}
+.theme-light {
+    --background-image-url: var(--background-image-light-url);
+}
+
+body.background-image-enabled {
+    /* This breaks canvas screenshots! */
+    --canvas-background: transparent;
+
+    --background-transparent: rgba(
+        var(--background-primary-rgb),
+        var(--pane-opacity, 0.85)
+    );
+    --background-partially-transparent: rgba(
+        var(--background-primary-rgb),
+        var(--ui-opacity, 0.85)
+    );
+    --background-tabs-transparent: rgba(
+        var(--background-primary-rgb),
+        var(--tab-opacity, 0.85)
+    );
+}
+
+/* Apply the background image */
+.background-image-enabled .horizontal-main-container {
+    background-color: var(--background-primary);
+    background-image: var(--background-image-url);
+    background-position: var(--background-image-position, center);
+    background-size: cover;
+}
+
+/* Make panes transparent */
+.workspace-tab-container::-webkit-scrollbar-track,
+.background-image-enabled :is(.mod-root .view-content, .view-header) {
+    background-color: var(--background-transparent) !important;
+}
+
+/* Make workspace UI elements transparent */
+.background-image-enabled
+    :is(
+        .mod-root .workspace-tab-header-container,
+        .workspace-ribbon,
+        .workspace-split,
+        .graph-controls
+    ),
+.workspace-ribbon::before {
+    background-color: var(--background-partially-transparent) !important;
+}
+
+/* Make stacked tab headers transparent */
+.background-image-enabled
+    .workspace-tab-container
+    .workspace-tab-header:not(.mod-active),
+.background-image-enabled
+    .workspace-tab-container
+    .workspace-tab-header.mod-active {
+    background-color: var(--background-tabs-transparent) !important;
+}
+
+/* Remove other backgrounds */
+.background-image-enabled
+    :is(
+        .titlebar-button-container,
+        .mod-vertical .workspace-tab-header,
+        .document-search-container,
+        .workspace-leaf,
+        .horizontal-main-container > .workspace,
+        .pdf-sidebar-container,
+        .pdf-container,
+        .pdf-toolbar
+    ),
+.background-image-enabled
+    .workspace-split:not(.mod-root, .mod-horizontal)
+    .workspace-tab-header-container,
+.background-image-enabled
+    .workspace-split:not(.mod-left-split, .mod-right-split),
+.background-image-enabled
+    .workspace-split.mod-left-split
+    .workspace-sidedock-vault-profile {
+    background-color: transparent !important;
+}
+/* Fix double side headers */
+.background-image-enabled .workspace-tab-header-container {
+    background-color: unset;
+}
+
+/* Remove tabs weird gradients and exterior curves */
+.background-image-enabled .workspace-tab-header.is-active::before,
+.background-image-enabled .workspace-tab-header.is-active::after,
+.background-image-enabled .view-header-title-container:not(.mod-at-end):after {
+    display: none;
+}
+
+/* Pane view */
+.background-image-pane-view .view-content:has(.markdown-reading-view) {
+    background-color: transparent !important;
+}
+.background-image-pane-view .view-content .cm-sizer,
+.background-image-pane-view
+    .view-content
+    > .markdown-reading-view
+    > .markdown-rendered
+    > .markdown-preview-sizer {
+    box-sizing: content-box;
+    padding-inline: 2rem;
+    padding-top: 2rem;
+    border-radius: 1rem;
+    background-color: var(--background-transparent) !important;
+}
+.background-image-pane-view .view-content .cm-sizer:has(.cm-gutters) {
+    padding-left: calc(2rem + 24px);
+}
+:root .background-image-pane-view .view-header {
+    background-color: var(--background-partially-transparent) !important;
+}
+/* New tab page */
+:root .background-image-pane-view .view-content:has(> .empty-state) {
+    width: fit-content;
+    height: unset;
+    margin: auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    border-radius: 1rem;
+}
+.background-image-enabled .empty-state {
+    position: static;
+}
+
+/** Visual Parity **/
+body.visual-parity-enabled {
+    --p-spacing: calc(1.5 * var(--font-text-size));
+    --heading-spacing: calc(var(--p-spacing) * 1);
+
+    /* Fix hr elements */
+    .markdown-rendered hr {
+        margin-block: calc(
+            (
+                    var(--font-text-size, 1rem) * var(--line-height-normal) -
+                        var(--hr-thickness)
+                ) / 2 + var(--p-spacing)
+        );
+    }
+
+    /* Fix header top margins */
+    .is-live-preview .cm-content > .HyperMD-header {
+        padding-top: unset;
+    }
+
+    .markdown-source-view.mod-cm6 .cm-table-widget {
+        padding-block: 0;
+    }
+
+    /* Fix collapsed headers in live preview */
+    .HyperMD-header:has(> .is-collapsed) {
+        padding-block: 0 var(--p-spacing);
+    }
+
+    /* Fix blockquotes */
+    & :not(blockquote) + blockquote,
+    & .cm-line:not(.HyperMD-quote-1) + .HyperMD-quote-1,
+    & .HyperMD-quote-1:first-child {
+        padding-top: 0.25em !important;
+    }
+    & blockquote:has(+ :not(blockquote)),
+    & .HyperMD-quote-1:has(+ .cm-line:not(.HyperMD-quote-1)),
+    & .HyperMD-quote-1:last-child {
+        padding-bottom: 0.25em !important;
+    }
+}
+
+/**** Extra Fixes ****/
+
+/** Callouts **/
+
+.callout {
+    --callout-content-padding: var(--size-4-2) var(--size-4-4);
+    --callout-content-color: rgba(var(--bg-dim-rgb), 0.3);
+    --callout-border-solid: 1px solid rgba(var(--callout-color), 0.3);
+    --callout-border-dashed: 1px dashed rgba(var(--callout-color), 0.4);
+    padding: 0;
+    border-left: 0.125rem solid rgba(var(--callout-color), 0.7);
+    border-top: var(--callout-border-solid);
+    border-right: var(--callout-border-solid);
+    border-bottom: var(--callout-border-solid);
+    border-radius: 4px;
+    mix-blend-mode: normal !important;
+}
+.callout,
+.cm-callout {
+    box-shadow: 2px 2px 3px #0004;
+}
+.callout-title {
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+    border-radius: 2px 2px 0 0;
+    background-color: rgba(var(--callout-color), 0.2);
+}
+.callout.is-collapsible .callout-title {
+    cursor: pointer !important;
+}
+.callout-icon svg.svg-icon {
+    color: rgb(var(--callout-color));
+}
+.callout-title-inner {
+    color: color-mix(
+        in srgb,
+        rgb(var(--callout-color)) 70%,
+        var(--color-base-100)
+    );
+    filter: contrast(2);
+}
+.callout-title-inner > * {
+    filter: contrast(0.5);
+}
+.callout-fold {
+    margin-left: auto;
+}
+.callout-content {
+    border-top: var(--callout-border-dashed);
+    border-radius: 0 0 2px 2px;
+    background-color: rgba(var(--bg-dim-rgb), 0.3);
+}
+.callout-content > *:first-child {
+    margin-top: 0;
+}
+.callout-content > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Quote callout */
+.callout[data-callout="quote"] {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+}
+.callout[data-callout="quote"] .callout-title {
+    background-color: var(--callout-content-color);
+    padding: 0 1ch 1ch;
+    display: block;
+    text-align: right;
+}
+.callout[data-callout="quote"] .callout-title .callout-icon {
+    display: none;
+}
+.callout[data-callout="quote"] .callout-content {
+    border: none;
+    padding-top: var(--size-4-4);
+}
+
+/* Custom callouts */
+/* Uses Material Colors 300-500 + A100 */
+.callout[data-callout="math"] {
+    --callout-color: 132, 255, 255;
+    --callout-icon: lucide-sigma;
+}
+.callout[data-callout="math"] .callout-content {
+    padding: 0 !important;
+}
+.callout[data-callout="math"] .callout-content .math-block {
+    border: none;
+}
+.callout[data-callout="graph"] {
+    --callout-color: 255, 152, 0;
+    --callout-icon: lucide-line-chart;
+}
+.callout[data-callout="image"] {
+    --callout-color: 234, 128, 252;
+    --callout-icon: lucide-image;
+}
+.callout[data-callout="image"] .callout-content {
+    padding: 0 !important;
+}
+.callout[data-callout="code"] {
+    --callout-color: 76, 175, 80;
+    --callout-icon: lucide-curly-braces;
+}
+.callout[data-callout="code"] .callout-content {
+    padding: 0 !important;
+}
+.callout[data-callout="code"] .callout-content > pre {
+    margin-block: 0;
+    background-color: var(--code-background);
+}
+
+/** Image Formatting **/
+
+img {
+    display: block;
+    margin-inline: auto;
+    image-rendering: auto !important;
+}
+
+/* Makes multiple images on the same line appear in a flex grid */
+/* Editing mode part */
+.cm-line:not(.cm-active):has(
+        .image-embed ~ .image-embed,
+        img:not(.cm-widgetBuffer) ~ img:not(.cm-widgetBuffer)
+    ):not(:has([alt="inline"])),
+p:has(.image-embed ~ .image-embed, img ~ img):not(:has([alt="inline"])) {
+    display: flex;
+    gap: 0.5rem;
+    align-items: start;
+
+    & > .image-embed {
+        flex: 1 1 0;
+        display: flex;
+        justify-content: center;
+    }
+    & > .cm-widgetBuffer {
+        display: none !important;
+    }
+}
+/* Makes a highlighted line shrink the image */
+:root:root
+    .cm-line.cm-active
+    > :is(.image-embed:not([alt="inline"]), img:not([alt="inline"])) {
+    width: 100px;
+    display: inline-block;
+}
+/* Centers the image if it is modified */
+:root:root .cm-line:not(.cm-active) > .image-embed:not([alt="inline"]),
+p > .image-embed:not([alt="inline"]) {
+    display: flex;
+    place-items: center;
+    flex-direction: column;
+}
+
+/* Disable changes if images have the alt text is exactly inline */
+img[alt="inline"] {
+    display: inline !important;
+}
+
+/*
+    This snippet adds modification in the ![[image link# modification|caption]] format
+    Excalidraw is not supported as it has its own format of using alt text set max width in pixels
+*/
+
+/* Style setting to revert to old behavior */
+.image-embed-stretch {
+    --img-width: 100;
+}
+
+/* Sizing */
+.image-embed > img:not([width]),
+span > img[src^="http"]:not([width]) {
+    display: block;
+    width: calc(var(--img-width) / 100 * min(100%, var(--file-line-width)));
+    margin-right: auto;
+}
+.image-embed[src~="1/4"],
+img[src^="http"][alt~="1/4"] {
+    --img-width: 25;
+}
+.image-embed[src~="2/5"],
+img[src^="http"][alt~="2/5"] {
+    --img-width: 40;
+}
+.image-embed[src~="1/3"],
+img[src^="http"][alt~="1/3"] {
+    --img-width: 33.3;
+}
+.image-embed[src~="1/2"],
+img[src^="http"][alt~="1/2"] {
+    --img-width: 50;
+}
+.image-embed[src~="3/5"],
+img[src^="http"][alt~="3/5"] {
+    --img-width: 60;
+}
+.image-embed[src~="2/3"],
+img[src^="http"][alt~="2/3"] {
+    --img-width: 66.6;
+}
+.image-embed[src~="3/4"],
+img[src^="http"][alt~="3/4"] {
+    --img-width: 75;
+}
+.image-embed[src~="4/5"],
+img[src^="http"][alt~="4/5"] {
+    --img-width: 80;
+}
+.image-embed[src~="1/1"],
+.image-embed[src~="full"],
+img[src^="http"][alt~="1/1"],
+img[src^="http"][alt~="full"] {
+    --img-width: 100;
+}
+
+/* Alignment */
+.image-embed[src~="left"] > img,
+.markdown-source-view.mod-cm6 .cm-content img[src^="http"][alt~="left"],
+img[src^="http"][alt~="left"] {
+    margin-left: 0 !important;
+}
+.image-embed[src~="right"] > img,
+.markdown-source-view.mod-cm6 .cm-content img[src^="http"][alt~="right"],
+img[src^="http"][alt~="right"] {
+    margin-right: 0 !important;
+}
+/* External images */
+.markdown-source-view.mod-cm6 .cm-content > img {
+    margin-inline: auto !important;
+}
+
+/* Floats */
+.markdown-reading-view .image-embed[src~="float"] > img:not([width]) {
+    width: calc(
+        var(--img-width, 100) / 100 * min(100vw, var(--file-line-width))
+    );
+    margin: 0 !important;
+}
+.markdown-reading-view .image-embed[src~="float"] {
+    clear: both;
+}
+.markdown-reading-view .image-embed[src~="float"][src~="left"] {
+    float: left;
+    margin-right: 2%;
+}
+.markdown-reading-view .image-embed[src~="float"][src~="right"] {
+    float: right;
+    margin-left: 2%;
+}
+
+/* Image alt text other modifications */
+.image-embed[src~="white"] > img,
+img[src^="http"][alt~="white"] {
+    background-color: white;
+}
+.image-embed[src~="black"] > img,
+img[src^="http"][alt~="black"] {
+    background-color: black;
+}
+.image-embed[src~="border"] > img,
+img[src^="http"][alt~="border"] {
+    border: 0.25rem solid var(--background-modifier-border);
+}
+.image-embed[src~="shadow"] > img,
+img[src^="http"][alt~="shadow"] {
+    box-shadow: 2px 2px 4px #0007;
+}
+.image-embed[src~="rounded"] > img,
+img[src^="http"][alt~="rounded"] {
+    border-radius: 0.5rem;
+}
+.image-embed[src~="blur"] > img,
+img[src^="http"][alt~="blur"] {
+    filter: blur(5px);
+    transition: filter 500ms 250ms ease;
+}
+.image-embed[src~="blur"] > img:hover,
+img[src^="http"][alt~="blur"]:hover {
+    filter: blur(0);
+}
+
+/* Alt text as caption under image */
+body:not(.no-image-alttext-caption)
+    .image-embed:not(
+        [alt*=".png"],
+        [alt*=".gif"],
+        [alt*=".jpg"],
+        [alt*=".jpeg"],
+        [alt*=".tiff"],
+        [alt*=".avif"],
+        [alt*=".webp"],
+        [alt="inline"],
+        [width]
+    )::after {
+    content: attr(alt);
+    display: block;
+    color: var(--text-muted);
+    text-align: center;
+    width: calc(
+        var(--img-width, 100) / 100 * min(100%, var(--file-line-width))
+    );
+}
+/* Align the text boxes correctly */
+.image-embed {
+    &::after {
+        margin-inline: auto;
+    }
+    &[src~="left"]::after {
+        margin-inline: 0 auto;
+    }
+    &[src~="right"]::after {
+        margin-inline: auto 0;
+    }
+    :root .markdown-preview-view &[src~="float"]::after {
+        width: 100%;
+    }
+}
+
+/** CSS Classes **/
+
+/* Custom width layouts */
+.full-width {
+    --file-line-width: 100%;
+}
+.wide-width {
+    --file-line-width: var(--wide-width-readable-line-length-custom, 1000px);
+}
+
+/* Numbered lists to columns in read mode */
+.columns :where(div, li) > ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.5rem;
+    padding-left: 0;
+}
+.columns :where(div, li) > ol > li {
+    outline: 1px solid var(--color-base-40);
+    padding: 0.5rem 0.75rem;
+}
+.columns :where(div, li) > ol > li > ul {
+    background: none;
+}
+.columns :where(div, li) > ol > li > .list-collapse-indicator {
+    display: none;
+}
+.columns :where(div, li) > ol > li > :where(ul, ol):before {
+    border-right: none !important;
+}
+
+/* Custom dashboard */
+/* Title at top of the document */
+.dashboard {
+    & .markdown-preview-section .title {
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        font-size: 26pt !important;
+        font-weight: bolder;
+        letter-spacing: 8px;
+    }
+
+    & h1 {
+        border-bottom-style: dotted !important;
+        border-width: 1px !important;
+        padding-bottom: 3px !important;
+    }
+    & div > ul:not(.dataview) {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0.5rem;
+        padding-left: 0;
+        & > li {
+            outline: 1px solid var(--bg5);
+            padding: 0.5rem 0.25rem;
+        }
+    }
+
+    & div > ul > li {
+        & > .list-bullet {
+            display: none;
+        }
+        & .list-collapse-indicator {
+            display: none;
+        }
+        & ul:before {
+            border-right: none !important;
+        }
+    }
+}
+
+/** Misc. **/
+
+/* Fix Dataview markers */
+.dataview.list-view-ul li {
+    list-style-type: none;
+}
+.dataview.list-view-ul li::before {
+    visibility: visible;
+    position: absolute;
+    content: "\200B";
+    pointer-events: none;
+    border-radius: var(--list-bullet-radius);
+    width: var(--list-bullet-size);
+    height: var(--list-bullet-size);
+    border: var(--list-bullet-border);
+    transform: translate(-0.85em, 0.6em);
+    background-color: var(--list-marker-color);
+    transition:
+        transform 0.15s,
+        box-shadow 0.15s;
+}
+.table-view-table > tbody > tr:hover {
+    background-color: var(--table-row-background-hover) !important;
+}
+
+/* Make math display better */
+div.math-block {
+    padding-block: 0.125em;
+}
+/* Make the weird span ones also work */
+span.math-block > mjx-container {
+    padding-block: 1rem;
+}
+
+/* Make MathJax text bigger */
+.MJX-TEX {
+    font-size: 110%;
+}
+/* Make \overline{} display on higher resolution screens*/
+mjx-stretchy-h.mjx-c2013 mjx-ext mjx-c::before {
+    font-weight: 900;
+}
+
+/* Make print break hr elements */
+hr.page-break {
+    opacity: 0.5;
+    height: 1.5rem;
+    display: flex;
+    border-top: 4px dotted;
+    background-color: unset;
+}
+hr.page-break::before {
+    content: "Page Break";
+    font-size: 0.75em;
+    margin-inline: auto;
+}
+@media print {
+    hr.page-break {
+        visibility: hidden;
+        page-break-after: always;
+    }
+}
+
+/* Fix weird ol bug */
+ol > li > p {
+    margin: 0;
+}
+
+/* Make backlinks padding more consistent */
+.markdown-preview-view .embedded-backlinks {
+    margin-top: 100px;
+}
+
+/* Fix specific word break difference */
+:root .cm-lineWrapping {
+    white-space: unset;
+}
